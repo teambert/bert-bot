@@ -1,0 +1,79 @@
+package part3;
+
+import lejos.nxt.Button;
+import lejos.nxt.SensorPort;
+import lejos.nxt.SensorPortListener;
+import lejos.nxt.TouchSensor;
+import lejos.nxt.UltrasonicSensor;
+import lejos.robotics.RegulatedMotor;
+import lejos.robotics.navigation.DifferentialPilot;
+import part2.eventDriven.Touch;
+import rp.config.RobotConfigs;
+import rp.systems.RobotProgrammingDemo;
+import rp.systems.WheeledRobotSystem;
+
+public class Escape extends RobotProgrammingDemo {
+
+	private final WheeledRobotSystem robot;
+	
+	public Escape(WheeledRobotSystem robot) {
+		this.robot = robot;
+	}
+	
+	private void hitWall(RegulatedMotor rightWheel, RegulatedMotor leftWheel, DifferentialPilot pilot) {
+		pilot.stop();
+		pilot.travel(150);
+		pilot.rotate(90.0);
+		pilot.backward();
+	}	
+	private void turnLeft(RegulatedMotor rightWheel, RegulatedMotor leftWheel, DifferentialPilot pilot) {
+		pilot.stop();
+		pilot.rotate(-90.0);
+		pilot.backward();
+	}
+	public static void main(String[] args) {
+		Button.waitForAnyPress();
+		WheeledRobotSystem robot = new WheeledRobotSystem(RobotConfigs.BERT_BOT);
+		RobotProgrammingDemo demo = new Escape(robot);
+		demo.run();
+	}
+	
+	@Override
+	public void run() {
+	RegulatedMotor leftWheel = robot.getConfig().getLeftWheel();
+	RegulatedMotor rightWheel = robot.getConfig().getRightWheel();
+	DifferentialPilot pilot = robot.getPilot();
+	UltrasonicSensor vision = new UltrasonicSensor(SensorPort.S3);
+	SensorPort.S1.addSensorPortListener( new SensorPortListener()	
+	{
+		public void stateChanged(SensorPort s1, int i, int i1)
+		{
+			if (i - i1 > 30) {
+				hitWall(rightWheel, leftWheel, pilot);
+			}
+		}
+	});
+	SensorPort.S4.addSensorPortListener( new SensorPortListener()	
+	{
+		public void stateChanged(SensorPort s4, int i, int i1)
+		{
+			if (i - i1 > 30) {
+				//leftWheel.backward();
+				//rightWheel.backward();
+				//hitWall(rightWheel, leftWheel, pilot);
+			}
+		}
+	});
+	
+	//Sound.setVolume(Sound.VOL_MAX);
+		//pilot.backward();
+	
+	while(m_run)
+	{
+		Button.waitForAnyPress();
+		System.out.println(vision.getDistance());
+	}
+
+	}
+
+}

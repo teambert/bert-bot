@@ -28,7 +28,7 @@ public class RobotConfigs {
 			56, 163, 210, Motor.A, Motor.C);
 	
 	public static final WheeledRobotConfiguration BERT_BOT = new WheeledRobotConfiguration(
-			56, 186, 215, Motor.C, Motor.B);
+			56, 123, 245, Motor.C, Motor.A);
 
 	/**
 	 * Configuration for Nick's Castorbot build. The numbers may be different for you. Measurements in mm. 

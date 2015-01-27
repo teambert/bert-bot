@@ -1,0 +1,12 @@
+package part2.oneLoop;
+
+import RobotProgrammingDemo;
+
+public class Touch extends RobotProgrammingDemo {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
