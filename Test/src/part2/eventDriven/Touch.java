@@ -21,10 +21,10 @@ public class Touch extends RobotProgrammingDemo {
 	private void stopAndTurn(RegulatedMotor rightWheel, RegulatedMotor leftWheel, DifferentialPilot pilot) {
 		rightWheel.stop();
 		leftWheel.stop();
-		pilot.travel(-100);
+		pilot.travel(100);
 		pilot.rotate(90.0);
-		rightWheel.forward();
-		leftWheel.forward();
+		rightWheel.backward();
+		leftWheel.backward();
 	}
 	
 	public Touch(WheeledRobotSystem robot) {
@@ -45,8 +45,8 @@ public class Touch extends RobotProgrammingDemo {
 		DifferentialPilot pilot = robot.getPilot();
 		
 		//Sound.setVolume(Sound.VOL_MAX);
-		leftWheel.forward();
-		rightWheel.forward();
+		leftWheel.backward();
+		rightWheel.backward();
 		
 		SensorPort.S1.addSensorPortListener( new SensorPortListener()	
 				{

@@ -15,6 +15,7 @@ import rp.systems.WheeledRobotSystem;
 public class Escape extends RobotProgrammingDemo {
 
 	private final WheeledRobotSystem robot;
+	private boolean wallFound = false;
 	
 	public Escape(WheeledRobotSystem robot) {
 		this.robot = robot;
@@ -22,7 +23,7 @@ public class Escape extends RobotProgrammingDemo {
 	
 	private void hitWall(RegulatedMotor rightWheel, RegulatedMotor leftWheel, DifferentialPilot pilot) {
 		pilot.stop();
-		pilot.travel(150);
+		pilot.travel(100);
 		pilot.rotate(90.0);
 		pilot.backward();
 	}	
@@ -30,6 +31,7 @@ public class Escape extends RobotProgrammingDemo {
 		pilot.stop();
 		pilot.rotate(-90.0);
 		pilot.backward();
+		wallFound = false;
 	}
 	public static void main(String[] args) {
 		Button.waitForAnyPress();
@@ -44,6 +46,8 @@ public class Escape extends RobotProgrammingDemo {
 	RegulatedMotor rightWheel = robot.getConfig().getRightWheel();
 	DifferentialPilot pilot = robot.getPilot();
 	UltrasonicSensor vision = new UltrasonicSensor(SensorPort.S3);
+	pilot.setTravelSpeed(100);
+	pilot.setRotateSpeed(100);
 	SensorPort.S1.addSensorPortListener( new SensorPortListener()	
 	{
 		public void stateChanged(SensorPort s1, int i, int i1)
@@ -68,10 +72,11 @@ public class Escape extends RobotProgrammingDemo {
 	
 	while(m_run)
 	{
-		if (vision.getDistance() > 15)
-		{
-			System.out.println(vision.getDistance());
-			turnLeft();
+		if (vision.getDistance() > 20 && wallFound) {
+			turnLeft(rightWheel, leftWheel, pilot);
+		}	
+		else {
+			wallFound = true;
 		}
 	}
 

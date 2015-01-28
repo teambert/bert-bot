@@ -21,7 +21,7 @@ public class Touch extends RobotProgrammingDemo {
 	private void stopAndTurn(RegulatedMotor rightWheel, RegulatedMotor leftWheel, DifferentialPilot pilot) {
 		rightWheel.stop();
 		leftWheel.stop();
-		pilot.travel(-100);
+		pilot.travel(100);
 		pilot.rotate(90.0);
 		rightWheel.backward();
 		leftWheel.backward();
